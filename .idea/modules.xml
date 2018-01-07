@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Staza.iml" filepath="$PROJECT_DIR$/Staza.iml" />
+      <module fileurl="file://C:\Users\chinmay\AndroidStudioProjects\Staza\Staza.iml" filepath="C:\Users\chinmay\AndroidStudioProjects\Staza\Staza.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\chinmay\AndroidStudioProjects\Staza\app\app.iml" filepath="C:\Users\chinmay\AndroidStudioProjects\Staza\app\app.iml" />
     </modules>
   </component>
 </project>

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
+import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
 import android.telephony.SmsManager
 import android.widget.Toast
@@ -36,7 +37,7 @@ class StazaIntent : IntentService("StazaIntent") {
             }
         }
     }
-    var context: Context? = null
+    //var context: Context? = null
     @SuppressLint("MissingPermission")
 
 
@@ -44,6 +45,10 @@ class StazaIntent : IntentService("StazaIntent") {
         super.onCreate()
         val locationProvider = LocationManager.GPS_PROVIDER
         val manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val settings = PreferenceManager.getDefaultSharedPreferences(this)
+        val text = settings.getString("msg", "")
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+        if(settings.getString("msg", "") == settings.getString("pass", ""))
         if (manager.isProviderEnabled(locationProvider) && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             val location = manager.getLastKnownLocation(locationProvider) as Location
             val currentLatitude = location.latitude
@@ -51,7 +56,7 @@ class StazaIntent : IntentService("StazaIntent") {
             val msg = ("Your latitude is: " + currentLatitude +
                     "Your longitude is: " + currentLongitude)
             val sm = SmsManager.getDefault()
-            sm.sendTextMessage("+918422066247", null, msg, null, null)
+            sm.sendTextMessage(settings.getString("mob", ""), null, msg, null, null)
         }
       /*public static final String INBOX = "content://sms/inbox";
         public static final String SENT = "content://sms/sent";
@@ -70,6 +75,7 @@ class StazaIntent : IntentService("StazaIntent") {
             // empty box, no SMS
         }
         cursor.close()*/
+
     }
 
 

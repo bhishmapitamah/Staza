@@ -16,11 +16,11 @@ class Authenticate : AppCompatActivity() {
         //val settings = PreferenceManager.getDefaultSharedPreferences(this)
         //var pass = settings.getString("pass", "")
         val pass="6969"
-        Toast.makeText(this@Authenticate,pass, Toast.LENGTH_LONG).show()
+        //Toast.makeText(this@Authenticate,pass, Toast.LENGTH_LONG).show()
         pass_enter.setOnClickListener {
             val password = findViewById<EditText>(R.id.pass_field)
             if (password.text.toString()==pass) {
-                startService(Intent(this, StazaIntent::class.java))
+                //startService(Intent(this, StazaIntent::class.java))
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.widget.Toast
+//import com.staza.jpg.staza.R.id.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
