@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ChangePassword::class.java)
             startActivity(intent)
         }
-        //generate new code
+        //generate new Code
         new_code.setOnClickListener{
             code = ""
             randygenrator()
