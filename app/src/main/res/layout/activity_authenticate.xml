@@ -23,7 +23,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:ems="10"
-        android:inputType="numberPassword" />
+        android:inputType="numberPassword"
+        android:textAlignment="center" />
 
     <Button
         android:id="@+id/pass_enter"

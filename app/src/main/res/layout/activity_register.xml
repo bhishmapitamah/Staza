@@ -4,55 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.staza.jpg.staza.ChangePassword">
+    tools:context="com.staza.jpg.staza.Register">
 
     <TextView
-        android:id="@+id/old_passtext"
+        android:id="@+id/new_pass_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="115dp"
-        android:text="@string/EnterOldPassword" />
+        android:layout_marginTop="112dp"
+        android:text="@string/EnterNewPassword" />
 
     <EditText
-        android:id="@+id/old_pass"
+        android:id="@+id/new_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/old_passtext"
+        android:layout_below="@+id/new_pass_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="39dp"
         android:ems="10"
         android:inputType="numberPassword"
         android:textAlignment="center" />
 
     <TextView
-        android:id="@+id/new_passtext"
+        android:id="@+id/new_pass_cnf_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/old_pass"
+        android:layout_below="@+id/new_pass"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp"
-        android:text="@string/EnterNewPassword" />
+        android:layout_marginTop="50dp"
+        android:text="@string/ConfirmNewPassword" />
 
     <EditText
-        android:id="@+id/new_pass_view"
+        android:id="@+id/new_pass_cnf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/old_pass"
-        android:layout_alignStart="@+id/old_pass"
-        android:layout_below="@+id/new_passtext"
-        android:layout_marginTop="51dp"
+        android:layout_alignLeft="@+id/new_pass"
+        android:layout_alignStart="@+id/new_pass"
+        android:layout_below="@+id/new_pass_cnf_view"
+        android:layout_marginTop="49dp"
         android:ems="10"
         android:inputType="numberPassword"
         android:textAlignment="center" />
 
     <Button
-        android:id="@+id/enter"
+        android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/new_pass_view"
+        android:layout_below="@+id/new_pass_cnf"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="33dp"
         android:text="@string/Submit" />
 </RelativeLayout>

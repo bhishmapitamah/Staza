@@ -7,4 +7,6 @@
     <string name="ViewCode">View Code</string>
     <string name="ChangePassword">Change Password</string>
     <string name="GenerateNewCode">Generate New Code</string>
+    <string name="ConfirmNewPassword">Confirm New Password</string>
+    <string name="StazaLogo">Staza Logo</string>
 </resources>

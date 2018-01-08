@@ -11,16 +11,31 @@ class ChangePassword : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_password)
+
+        //Match Passwords on Submit
         enter.setOnClickListener {
-            val settings = PreferenceManager.getDefaultSharedPreferences(this)
-            val oldpass = settings.getString("pass", "")
-            if (old_pass.text.toString()==oldpass) {
+
+            //Get Default SharedPreferences
+            val settings = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+            val oldPass = settings.getString("pass", "")
+
+            //Match Passwords
+            if (old_pass.text.toString()==oldPass) {
+
+                //Store New Password
                 val editor = settings.edit()
-                editor.putString("pass",new_pass.text.toString())
+                editor.putString("pass", new_pass_view.text.toString())
                 editor.apply()
+
+                //Display Success Toast
                 Toast.makeText(this@ChangePassword,"Password changed",Toast.LENGTH_LONG).show()
+
+                //Back to Main Activity
+                finish()
             }
             else{
+
+                //Display Error Toast
                 Toast.makeText(this@ChangePassword,"Incorrect Password",Toast.LENGTH_LONG).show()
             }
         }
