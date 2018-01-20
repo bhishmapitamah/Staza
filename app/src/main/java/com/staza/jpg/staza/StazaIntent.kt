@@ -1,5 +1,4 @@
-/*
-package com.staza.jpg.staza
+/*package com.staza.jpg.staza
 
 import android.annotation.SuppressLint
 import android.app.IntentService

@@ -47,6 +47,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Get Default SharedPreferences
+        val settings = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        Key = settings.getString("key", "")
+
         //show Key code
         view_code.setOnClickListener{
 

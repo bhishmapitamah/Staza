@@ -39,7 +39,22 @@ class SmsListener : BroadcastReceiver() {
 
         val bundle = intent.extras
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-
+        mFusedLocationClient!!.lastLocation.addOnSuccessListener(OnSuccessListener<Location>(){
+            // Task completed successfully
+            // ...
+            location->
+            // Got last known location. In some rare situations this can be null.
+            if (location != null) {
+                // Logic to handle location object
+                val currentLatitude = location.latitude
+                val currentLongitude = location.longitude
+                //val msg = "Your Phone is Located at : ( $currentLatitude, $currentLongitude )"
+                //val sm = SmsManager.getDefault()
+                //sm.sendTextMessage(msgFrom, null, msg, null, null)
+                Log.d("yo", "$currentLatitude, $currentLongitude")
+                Toast.makeText(context, "$currentLatitude, $currentLongitude", Toast.LENGTH_SHORT).show()
+            }
+        })
 
 
 
