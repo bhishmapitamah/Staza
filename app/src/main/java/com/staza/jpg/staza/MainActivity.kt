@@ -12,7 +12,7 @@ import java.util.*
 val random = Random()
 class MainActivity : AppCompatActivity() {
 
-    private var count = 16
+    private var count = 6
     private var Key = ""
 
     private fun rand(from: Int, to: Int) : Int {
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
                 Key += rand(0, 9).toString()
                 --count
             }
-            count = 16
+            count = 6
 
             //Get Default SharedPreferences
             val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)

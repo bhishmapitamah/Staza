@@ -1,3 +1,4 @@
+/*
 package com.staza.jpg.staza
 
 import android.annotation.SuppressLint
@@ -148,3 +149,4 @@ class StazaIntent : IntentService("StazaIntent") {
         }
     }
 }
+*/

@@ -12,16 +12,36 @@ import android.location.Location
 import android.location.LocationManager
 import android.support.v4.content.ContextCompat
 import android.telephony.SmsManager
+import android.util.Log
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
+import android.support.annotation.NonNull
+import com.google.android.gms.location.LocationServices.getFusedLocationProviderClient
+import com.google.android.gms.tasks.OnFailureListener
+
+
+
+
+
+
 
 /**
 * Created by chinmay on 07-Jan-18.
 */
 
 class SmsListener : BroadcastReceiver() {
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
 
+    @SuppressLint("MissingPermission")
     override fun onReceive(context: Context, intent: Intent) {
 
         val bundle = intent.extras
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+
+
+
 
         Toast.makeText(context, "Message Received", Toast.LENGTH_SHORT).show()
 
@@ -42,22 +62,31 @@ class SmsListener : BroadcastReceiver() {
 
                 Toast.makeText(context, "Staza: " + msgBody, Toast.LENGTH_SHORT).show()
 
-                @SuppressLint("MissingPermission")
-                val locationProvider = LocationManager.GPS_PROVIDER
-                val manager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-                Toast.makeText(context, msgBody, Toast.LENGTH_SHORT).show()
-
                 //Get Current Location and Send back SMS
-                if(msgBody == settings.getString("key", ""))
-                    if (manager.isProviderEnabled(locationProvider) && ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        val location = manager.getLastKnownLocation(locationProvider) as Location
-                        val currentLatitude = location.latitude
-                        val currentLongitude = location.longitude
-                        val msg = "Your Phone is Located at : ( $currentLatitude, $currentLongitude )"
-                        val sm = SmsManager.getDefault()
-                        sm.sendTextMessage(msgFrom, null, msg, null, null)
-                    }
+                if(msgBody == settings.getString("key", "")){
+
+                    mFusedLocationClient!!.lastLocation.addOnSuccessListener(OnSuccessListener<Location>(){
+                        // Task completed successfully
+                        // ...
+                        location->
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            val currentLatitude = location.latitude
+                            val currentLongitude = location.longitude
+                            val msg = "Your Phone is Located at : ( $currentLatitude, $currentLongitude )"
+                            val sm = SmsManager.getDefault()
+                            sm.sendTextMessage(msgFrom, null, msg, null, null)
+                            Log.d("yo", "$currentLatitude, $currentLongitude")
+                            Toast.makeText(context, "$currentLatitude, $currentLongitude", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+
+                        //val msg = "Your Phone is Located at : ( $currentLatitude, $currentLongitude )"
+                        //val sm = SmsManager.getDefault()
+                        //sm.sendTextMessage(msgFrom, null, msg, null, null)
+                    Log.d("yo", "matched")
+                }
             } catch (e: Exception) {
                 //Log.d("Exception caught",e.getMessage());
             }
