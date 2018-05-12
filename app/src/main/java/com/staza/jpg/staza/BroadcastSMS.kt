@@ -39,7 +39,7 @@ class SmsListener : BroadcastReceiver() {
 
         val bundle = intent.extras
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-        mFusedLocationClient!!.lastLocation.addOnSuccessListener(OnSuccessListener<Location>(){
+        mFusedLocationClient!!.lastLocation.addOnSuccessListener({
             // Task completed successfully
             // ...
             location->
@@ -48,9 +48,6 @@ class SmsListener : BroadcastReceiver() {
                 // Logic to handle location object
                 val currentLatitude = location.latitude
                 val currentLongitude = location.longitude
-                //val msg = "Your Phone is Located at : ( $currentLatitude, $currentLongitude )"
-                //val sm = SmsManager.getDefault()
-                //sm.sendTextMessage(msgFrom, null, msg, null, null)
                 Log.d("yo", "$currentLatitude, $currentLongitude")
                 Toast.makeText(context, "$currentLatitude, $currentLongitude", Toast.LENGTH_SHORT).show()
             }
@@ -80,11 +77,13 @@ class SmsListener : BroadcastReceiver() {
                 //Get Current Location and Send back SMS
                 if(msgBody == settings.getString("key", "")){
 
-                    mFusedLocationClient!!.lastLocation.addOnSuccessListener(OnSuccessListener<Location>(){
+                    mFusedLocationClient!!.lastLocation.addOnSuccessListener({
                         // Task completed successfully
                         // ...
                         location->
                         // Got last known location. In some rare situations this can be null.
+                        //val sm1 = SmsManager.getDefault()
+                        //sm1.sendTextMessage(msgFrom, null, "yo baby", null, null)
                         if (location != null) {
                             // Logic to handle location object
                             val currentLatitude = location.latitude
@@ -102,7 +101,7 @@ class SmsListener : BroadcastReceiver() {
                         //sm.sendTextMessage(msgFrom, null, msg, null, null)
                     Log.d("yo", "matched")
                 }
-            } catch (e: Exception) {
+            } catch (e: kotlin.Exception) {
                 //Log.d("Exception caught",e.getMessage());
             }
         }
