@@ -43,6 +43,7 @@
         <activity android:name=".Authenticate" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ChangePassword" />
+        <activity android:name=".location_setting" />
     </application>
 
 </manifest>
