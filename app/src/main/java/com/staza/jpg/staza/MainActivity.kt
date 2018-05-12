@@ -53,14 +53,12 @@ class MainActivity : AppCompatActivity() {
 
         //show Key code
         view_code.setOnClickListener{
-
             //Show The Code and Generate if not Already Generated
             randygenrator()
         }
 
         //change password
         change_pass.setOnClickListener{
-
             //Switch to ChangePassword Activity
             val intent = Intent(this, ChangePassword::class.java)
             startActivity(intent)
@@ -68,7 +66,6 @@ class MainActivity : AppCompatActivity() {
 
         //generate new Code
         new_code.setOnClickListener{
-
             //Generate New Code
             Key = ""
             randygenrator()

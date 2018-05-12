@@ -13,8 +13,6 @@ class Register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         submit.setOnClickListener{
-
-
             //Check if Both Passwords Match
             if(new_pass.text.toString()==new_pass_cnf.text.toString()){
 

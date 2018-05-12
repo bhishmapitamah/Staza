@@ -21,16 +21,6 @@ import android.support.annotation.NonNull
 import com.google.android.gms.location.LocationServices.getFusedLocationProviderClient
 import com.google.android.gms.tasks.OnFailureListener
 
-
-
-
-
-
-
-/**
-* Created by chinmay on 07-Jan-18.
-*/
-
 class SmsListener : BroadcastReceiver() {
     private var mFusedLocationClient: FusedLocationProviderClient? = null
 
@@ -52,8 +42,6 @@ class SmsListener : BroadcastReceiver() {
                 Toast.makeText(context, "$currentLatitude, $currentLongitude", Toast.LENGTH_SHORT).show()
             }
         })
-
-
 
         Toast.makeText(context, "Message Received", Toast.LENGTH_SHORT).show()
 
