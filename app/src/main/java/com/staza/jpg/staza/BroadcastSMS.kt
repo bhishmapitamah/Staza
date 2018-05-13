@@ -23,6 +23,7 @@ import android.support.annotation.NonNull
 import android.support.v4.content.ContextCompat.startActivity
 import com.google.android.gms.location.LocationServices.getFusedLocationProviderClient
 import com.google.android.gms.tasks.OnFailureListener
+import java.lang.Thread.sleep
 
 class SmsListener : BroadcastReceiver() {
     private var mFusedLocationClient: FusedLocationProviderClient? = null
@@ -35,7 +36,12 @@ class SmsListener : BroadcastReceiver() {
         val bundle = intent.extras
 
         Toast.makeText(context, "Message Received", Toast.LENGTH_SHORT).show()
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = prefs.edit()
 
+        //Change Key
+        editor.putString("location", "0")
+        editor.apply()
         if (bundle != null) {
             //---get the SMS message passed in---
             val msgArray: Array<SmsMessage?>?
@@ -55,7 +61,13 @@ class SmsListener : BroadcastReceiver() {
 
                 //Get Current Location and Send back SMS
                 if(msgBody == settings.getString("key", "")){
-                    startActivity(context, i, bundle)
+
+                    while(prefs.getString("location", "")!="1") {
+                        startActivity(context, i, bundle)
+                        sleep(10000)
+                       // Thread.sleep(10000)
+                    }
+                    Thread.sleep(100000)
                     val handler = Handler()
                     handler.postDelayed({
                         // Actions to do after 10 seconds
