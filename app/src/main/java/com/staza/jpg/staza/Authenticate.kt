@@ -7,19 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_authenticate.*
 import android.preference.PreferenceManager
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.widget.Toast
-import java.nio.file.Files.size
 import android.content.DialogInterface
 import android.os.Build
 import android.support.v7.app.AlertDialog
-//import javax.swing.UIManager.put
-import java.nio.file.Files.size
-
-
-
-
 
 
 class Authenticate : AppCompatActivity() {
@@ -35,32 +26,32 @@ class Authenticate : AppCompatActivity() {
         val settings = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val pass = settings.getString("pass", "")
 
-       permissions()
+        //Take permissions from the user
+        takePermissions()
 
         //Authenticate and Switch to Main Activity
-        if (allow)
+        if (allow) {
             pass_enter.setOnClickListener {
-                if (pass_field.text.toString()==pass) {
+                if (pass_field.text.toString() == pass) {
 
-                    //startService(Intent(this, StazaIntent::class.java))
                     //Switch to Main Activity
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
 
                     //Display Success Message
-                    Toast.makeText(this@Authenticate,"Welcome",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Authenticate, "Welcome", Toast.LENGTH_LONG).show()
 
                     //Finish current Activity
                     finish()
-                }
-                else {
+                } else {
                     //Display Error Message
-                    Toast.makeText(this@Authenticate,"Incorrect Password",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@Authenticate, "Incorrect Password", Toast.LENGTH_LONG).show()
                 }
             }
+        }
     }
 
-    private fun permissions() {
+    private fun takePermissions() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             allow = true
             return
@@ -100,8 +91,6 @@ class Authenticate : AppCompatActivity() {
         }
         allow = true
     }
-
-    //private fun showMessageOKCancel(message: String, onClickListener: DialogInterface.OnClickListener) {}
 
     private fun addPermission(permissionsList: MutableList<String>, permission: String): Boolean {
         if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
