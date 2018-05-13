@@ -1,7 +1,6 @@
 package com.staza.jpg.staza
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.widget.Toast
 import android.content.Intent
 import android.content.BroadcastReceiver
@@ -9,29 +8,21 @@ import android.content.Context
 import android.preference.PreferenceManager
 import android.telephony.SmsMessage
 import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationManager
 import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.telephony.SmsManager
 import android.util.Log
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
-import android.support.annotation.NonNull
 import android.support.v4.content.ContextCompat.startActivity
-import com.google.android.gms.location.LocationServices.getFusedLocationProviderClient
-import com.google.android.gms.tasks.OnFailureListener
-import java.lang.Thread.sleep
 
 class SmsListener : BroadcastReceiver() {
-    private var mFusedLocationClient: FusedLocationProviderClient? = null
 
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
 
     override fun onReceive(context: Context, intent: Intent) {
         val i = Intent()
-        i.setClass(context, location_setting::class.java!!)
+        i.setClass(context, LocationSetting::class.java)
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         val bundle = intent.extras
 
@@ -62,12 +53,11 @@ class SmsListener : BroadcastReceiver() {
                 //Get Current Location and Send back SMS
                 if(msgBody == settings.getString("key", "")){
 
-                    while(prefs.getString("location", "")!="1") {
-                        startActivity(context, i, bundle)
-                        sleep(10000)
-                       // Thread.sleep(10000)
-                    }
-                    Thread.sleep(100000)
+                    //while(prefs.getString("location", "")!="1") {
+                        //if(prefs.getString("running", "") == "0")
+                    startActivity(context, i, bundle)
+                    //}
+                    Toast.makeText(context, "sf", Toast.LENGTH_SHORT).show()
                     val handler = Handler()
                     handler.postDelayed({
                         // Actions to do after 10 seconds
