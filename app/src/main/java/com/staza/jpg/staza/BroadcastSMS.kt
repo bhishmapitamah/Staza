@@ -22,11 +22,6 @@ import com.google.android.gms.location.LocationServices.getFusedLocationProvider
 import com.google.android.gms.tasks.OnFailureListener
 
 
-
-
-
-
-
 /**
 * Created by chinmay on 07-Jan-18.
 */
@@ -38,23 +33,6 @@ class SmsListener : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
 
         val bundle = intent.extras
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-        mFusedLocationClient!!.lastLocation.addOnSuccessListener({
-            // Task completed successfully
-            // ...
-            location->
-            // Got last known location. In some rare situations this can be null.
-            if (location != null) {
-                // Logic to handle location object
-                val currentLatitude = location.latitude
-                val currentLongitude = location.longitude
-                Log.d("yo", "$currentLatitude, $currentLongitude")
-                Toast.makeText(context, "$currentLatitude, $currentLongitude", Toast.LENGTH_SHORT).show()
-            }
-        })
-
-
-
         Toast.makeText(context, "Message Received", Toast.LENGTH_SHORT).show()
 
         if (bundle != null) {
@@ -76,14 +54,12 @@ class SmsListener : BroadcastReceiver() {
 
                 //Get Current Location and Send back SMS
                 if(msgBody == settings.getString("key", "")){
-
+                    mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
                     mFusedLocationClient!!.lastLocation.addOnSuccessListener({
                         // Task completed successfully
                         // ...
                         location->
-                        // Got last known location. In some rare situations this can be null.
-                        //val sm1 = SmsManager.getDefault()
-                        //sm1.sendTextMessage(msgFrom, null, "yo baby", null, null)
+
                         if (location != null) {
                             // Logic to handle location object
                             val currentLatitude = location.latitude
@@ -95,10 +71,6 @@ class SmsListener : BroadcastReceiver() {
                             Toast.makeText(context, "$currentLatitude, $currentLongitude", Toast.LENGTH_SHORT).show()
                         }
                     })
-
-                        //val msg = "Your Phone is Located at : ( $currentLatitude, $currentLongitude )"
-                        //val sm = SmsManager.getDefault()
-                        //sm.sendTextMessage(msgFrom, null, msg, null, null)
                     Log.d("yo", "matched")
                 }
             } catch (e: kotlin.Exception) {
