@@ -1,5 +1,6 @@
 package com.staza.jpg.staza
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.widget.Toast
 import android.content.Intent
@@ -10,6 +11,7 @@ import android.telephony.SmsMessage
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.telephony.SmsManager
 import android.util.Log
@@ -18,23 +20,28 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import android.support.annotation.NonNull
+import android.support.v4.content.ContextCompat.startActivity
 import com.google.android.gms.location.LocationServices.getFusedLocationProviderClient
 import com.google.android.gms.tasks.OnFailureListener
-
-
-/**
-* Created by chinmay on 07-Jan-18.
-*/
+import java.lang.Thread.sleep
 
 class SmsListener : BroadcastReceiver() {
     private var mFusedLocationClient: FusedLocationProviderClient? = null
 
-    @SuppressLint("MissingPermission")
+
     override fun onReceive(context: Context, intent: Intent) {
-
+        val i = Intent()
+        i.setClass(context, location_setting::class.java!!)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         val bundle = intent.extras
-        Toast.makeText(context, "Message Received", Toast.LENGTH_SHORT).show()
 
+        Toast.makeText(context, "Message Received", Toast.LENGTH_SHORT).show()
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = prefs.edit()
+
+        //Change Key
+        editor.putString("location", "0")
+        editor.apply()
         if (bundle != null) {
             //---get the SMS message passed in---
             val msgArray: Array<SmsMessage?>?
@@ -54,11 +61,26 @@ class SmsListener : BroadcastReceiver() {
 
                 //Get Current Location and Send back SMS
                 if(msgBody == settings.getString("key", "")){
-                    mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-                    mFusedLocationClient!!.lastLocation.addOnSuccessListener({
-                        // Task completed successfully
-                        // ...
+
+                    while(prefs.getString("location", "")!="1") {
+                        startActivity(context, i, bundle)
+                        sleep(10000)
+                       // Thread.sleep(10000)
+                    }
+                    Thread.sleep(100000)
+                    val handler = Handler()
+                    handler.postDelayed({
+                        // Actions to do after 10 seconds
+
+                        Toast.makeText(context, "sjdks", Toast.LENGTH_SHORT).show()
+                        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+                        if (ContextCompat.checkSelfPermission(context,
+                                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+
+                        mFusedLocationClient!!.lastLocation.addOnSuccessListener({
+
                         location->
+                        // Got last known location. In some rare situations this can be null.
 
                         if (location != null) {
                             // Logic to handle location object
@@ -67,11 +89,11 @@ class SmsListener : BroadcastReceiver() {
                             val msg = "Your Phone is Located at : ( $currentLatitude, $currentLongitude )"
                             val sm = SmsManager.getDefault()
                             sm.sendTextMessage(msgFrom, null, msg, null, null)
-                            Log.d("yo", "$currentLatitude, $currentLongitude")
+                            Log.d("Location Coordinates", "$currentLatitude, $currentLongitude")
                             Toast.makeText(context, "$currentLatitude, $currentLongitude", Toast.LENGTH_SHORT).show()
                         }
                     })
-                    Log.d("yo", "matched")
+                    }, 100000)
                 }
             } catch (e: kotlin.Exception) {
                 //Log.d("Exception caught",e.getMessage());
