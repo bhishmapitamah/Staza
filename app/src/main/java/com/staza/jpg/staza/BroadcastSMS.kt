@@ -26,14 +26,18 @@ import com.google.android.gms.tasks.OnFailureListener
 import java.lang.Thread.sleep
 
 class SmsListener : BroadcastReceiver() {
+
+
     private var mFusedLocationClient: FusedLocationProviderClient? = null
-
-
     override fun onReceive(context: Context, intent: Intent) {
+        Log.d("1","recieved")
+
         val i = Intent()
         i.setClass(context, location_setting::class.java!!)
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         val bundle = intent.extras
+
+        Log.d("1","recieved2")
 
         Toast.makeText(context, "Message Received", Toast.LENGTH_SHORT).show()
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -57,19 +61,41 @@ class SmsListener : BroadcastReceiver() {
                     msgBody += msgArray[i]!!.messageBody
                 }
 
+                Log.d("1",msgBody)
+
                 Toast.makeText(context, "Staza: " + msgBody, Toast.LENGTH_SHORT).show()
 
                 //Get Current Location and Send back SMS
                 if(msgBody == settings.getString("key", "")){
+                    Toast.makeText(context, "matched", Toast.LENGTH_SHORT).show()
+                    mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+                    if (ContextCompat.checkSelfPermission(context,
+                            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
 
-                    while(prefs.getString("location", "")!="1") {
+                        mFusedLocationClient!!.lastLocation.addOnSuccessListener({
+
+                            location->
+                            // Got last known location. In some rare situations this can be null.
+
+                            if (location != null) {
+                                // Logic to handle location object
+                                val currentLatitude = location.latitude
+                                val currentLongitude = location.longitude
+                                val msg = "Your Phone is Located at : ($currentLatitude, $currentLongitude)"
+                                val sm = SmsManager.getDefault()
+                                sm.sendTextMessage(msgFrom, null, msg, null, null)
+                                Log.d("Location Coordinates", "$currentLatitude, $currentLongitude")
+                                Toast.makeText(context, "$currentLatitude, $currentLongitude", Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    /*while(prefs.getString("location", "")!="1") {
                         startActivity(context, i, bundle)
                         sleep(10000)
                        // Thread.sleep(10000)
-                    }
-                    Thread.sleep(100000)
-                    val handler = Handler()
-                    handler.postDelayed({
+                    }*/
+                    //Thread.sleep(100000)
+                    //val handler = Handler()
+                    /*handler.postDelayed({
                         // Actions to do after 10 seconds
 
                         Toast.makeText(context, "sjdks", Toast.LENGTH_SHORT).show()
@@ -93,11 +119,15 @@ class SmsListener : BroadcastReceiver() {
                             Toast.makeText(context, "$currentLatitude, $currentLongitude", Toast.LENGTH_SHORT).show()
                         }
                     })
-                    }, 100000)
+                    }, 100000)*/
                 }
             } catch (e: kotlin.Exception) {
                 //Log.d("Exception caught",e.getMessage());
             }
         }
     }
+
+    //fun setMainActivityHandler(main: location) {
+    //    locater = main
+    //}
 }

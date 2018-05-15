@@ -28,6 +28,7 @@ class Authenticate : AppCompatActivity() {
 
         //Take permissions from the user
         takePermissions()
+        Toast.makeText(this@Authenticate, "$allow", Toast.LENGTH_LONG).show()
 
         //Authenticate and Switch to Main Activity
         if (allow) {
@@ -43,7 +44,8 @@ class Authenticate : AppCompatActivity() {
 
                     //Finish current Activity
                     finish()
-                } else {
+                }
+                else {
                     //Display Error Message
                     Toast.makeText(this@Authenticate, "Incorrect Password", Toast.LENGTH_LONG).show()
                 }
