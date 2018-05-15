@@ -49,6 +49,12 @@ class Authenticate : AppCompatActivity() {
                 }
             }
         }
+        else{
+            Toast.makeText(this, "Some Permission is Denied", Toast.LENGTH_SHORT)
+                    .show()
+            android.os.Process.killProcess(android.os.Process.myPid())
+            System.exit(1)
+        }
     }
 
     private fun takePermissions() {
