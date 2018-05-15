@@ -89,7 +89,7 @@ open class LocationSetting : AppCompatActivity(), GoogleApiClient.ConnectionCall
 
     private fun mResult() {
         Log.d("debug","in loc result")
-
+        @Suppress("DEPRECATION")
         pendingResult = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, locationSettingsRequest.build())
         pendingResult.setResultCallback { locationSettingsResult ->
             val status = locationSettingsResult.status
@@ -112,12 +112,12 @@ open class LocationSetting : AppCompatActivity(), GoogleApiClient.ConnectionCall
             Log.d("debug","all loc settings satisfied")
 
 
-            val i = Intent()
-            i.setClass(this, ReqLoc_SendSMS::class.java)
-            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            val bundle = intent.extras
+            //val i = Intent()
+            //i.setClass(this, ReqLoc_SendSMS::class.java)
+            //i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            //val bundle = intent.extras
 
-            ContextCompat.startActivity(this, i, bundle)
+            //ContextCompat.startActivity(this, i, bundle)
             Log.d("debug","going out of mresult")
 
         }
