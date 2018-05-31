@@ -44,6 +44,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".ChangePassword" />
         <activity android:name=".LocationSetting" />
+        <activity android:name=".ReqLoc_SendSMS" />
+
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
@@ -28,21 +29,45 @@ open class LocationSetting : AppCompatActivity(), GoogleApiClient.ConnectionCall
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //Enable GPS
+        Log.d("debug","in loc settings")
+
         call()
+        Log.d("debug","call done")
+
     }
 
     //Wrapper for Enabling GPS
     private fun call(){
+
+        Log.d("debug","in call")
         context = this
+
+
+        val j = Intent()
+        j.setClass(this, ReqLoc_SendSMS::class.java)
+        j.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        val bundle1 = intent.extras
+
+        Log.d("debug","in call before if")
+
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Log.d("debug","gps enabled")
+
             Toast.makeText(this, "Gps is Enabled", Toast.LENGTH_SHORT).show()
+            ContextCompat.startActivity(this, j, bundle1)
+            Log.d("debug","new activity started")
+
         } else {
+            Log.d("debug","gps not enabled")
+
             mEnableGps()
         }
     }
 
     private fun mEnableGps() {
+        Log.d("debug","in enable gps")
+
         googleApiClient = GoogleApiClient.Builder(context)
                 .addApi(LocationServices.API).addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -52,6 +77,8 @@ open class LocationSetting : AppCompatActivity(), GoogleApiClient.ConnectionCall
     }
 
     private fun mLocationSetting() {
+        Log.d("debug","in loc set")
+
         locationRequest = LocationRequest.create()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = (1 * 1000).toLong()
@@ -61,6 +88,7 @@ open class LocationSetting : AppCompatActivity(), GoogleApiClient.ConnectionCall
     }
 
     private fun mResult() {
+        Log.d("debug","in loc result")
         @Suppress("DEPRECATION")
         pendingResult = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, locationSettingsRequest.build())
         pendingResult.setResultCallback { locationSettingsResult ->
@@ -81,15 +109,36 @@ open class LocationSetting : AppCompatActivity(), GoogleApiClient.ConnectionCall
             // requests here.
             // Location settings are not satisfied. However, we have no way to fix the
             // settings so we won't show the dialog.
+            Log.d("debug","all loc settings satisfied")
+
+
+            //val i = Intent()
+            //i.setClass(this, ReqLoc_SendSMS::class.java)
+            //i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            //val bundle = intent.extras
+
+            //ContextCompat.startActivity(this, i, bundle)
+            Log.d("debug","going out of mresult")
+
         }
     }
 
     //callback method
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        Log.d("debug","in on activity result")
+
+        val i = Intent()
+        i.setClass(context, ReqLoc_SendSMS::class.java)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        val bundle = intent.extras
+
+
         when (requestCode) {
             REQUEST_LOCATION -> when (resultCode) {
                 Activity.RESULT_OK -> {
                     Toast.makeText(context, "Gps is Enabled", Toast.LENGTH_SHORT).show()
+                    ContextCompat.startActivity(context, i, bundle)
+
                 }
                 Activity.RESULT_CANCELED ->
                     //Recursive call to Enable GPS
@@ -98,6 +147,8 @@ open class LocationSetting : AppCompatActivity(), GoogleApiClient.ConnectionCall
                 }
             }
         }
+        Log.d("debug","last line of activity result")
+
     }
 
     override fun onDestroy() {
